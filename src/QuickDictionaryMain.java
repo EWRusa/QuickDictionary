@@ -1,6 +1,6 @@
 /*
 @author Emmett Willis
-@date 9/16/2021
+@date 9/18/2021
  */
 
 import java.io.IOException;
@@ -27,35 +27,6 @@ public class QuickDictionaryMain {
         merriamDefine(wordToDefine);
         dictComDefine(wordToDefine);//this function is not done but successfully calls the correct metadata
     }
-    private static void testDefine(String dictSite){
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(dictSite))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = client.send(request,
-                    HttpResponse.BodyHandlers.ofString());
-
-            System.out.println(response.body());
-            ArrayList<String> scraper = new ArrayList<String>
-                    (Arrays.asList(response.body().toString().split(">")));
-            ArrayList<String> meta = new ArrayList<String>();
-            /*for (int i = 0; i < scraper.size(); i++) {
-                if (scraper.get(i).contains("meta")) meta.add(scraper.get(i));
-            }
-            for (int i = 0; i < meta.size(); i++) {
-                System.out.println("meta found:" + meta.get(i));
-            }*/
-        } catch (IOException ex) {
-            System.out.println("Website address not found");
-        } catch (InterruptedException ex) {
-            System.out.println("Website call interrupted");
-        } catch (StringIndexOutOfBoundsException ex) {
-            System.out.println("Website address not found");
-        }
-    }
 
     private static void merriamDefine(String wordToDefine){
         //narrow to metadata and find name="description"
@@ -71,8 +42,8 @@ public class QuickDictionaryMain {
                     HttpResponse.BodyHandlers.ofString());
 
             //System.out.println(response.body());
-            ArrayList<String> scraper = new ArrayList<String>
-                    (Arrays.asList(response.body().toString().split(">")));
+            ArrayList<String> scraper = new ArrayList<>
+                    (Arrays.asList(response.body().split(">")));
             int index = 0;
             while (index < scraper.size() - 1){
                 if (!scraper.get(index).contains("name=\"description\"")){
@@ -107,8 +78,8 @@ public class QuickDictionaryMain {
                     HttpResponse.BodyHandlers.ofString());
 
             //System.out.println(response.body());
-            ArrayList<String> scraper = new ArrayList<String>
-                    (Arrays.asList(response.body().toString().split(">")));
+            ArrayList<String> scraper = new ArrayList<>
+                    (Arrays.asList(response.body().split(">")));
             int index = 0;
             while (index < scraper.size() - 1){
                 if (!scraper.get(index).contains("name=\"description\"")){
